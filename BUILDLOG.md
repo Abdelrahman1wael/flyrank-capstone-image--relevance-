@@ -24,3 +24,8 @@
 - **What I Did:** Created `eval_suite.py` to run empirical threshold sweeps across 15 labeled evaluation test cases (exact matches, scientific taxonomic matches, refusal traps, out-of-domain queries). Discovered optimal threshold `0.54` securing 100.00% precision. Documented submission proof logs in `EVIDENCE.md`.
 - **AI Tool Assistance:** Designed precision evaluation metrics matrix and evidence ledger formatting.
 - **Human Course Corrections:** Enforced non-zero threshold evaluation sweeps to guarantee zero false positives on forced-wolf traps.
+
+### [2026-08-30] Stage 6: Production FastAPI API Endpoints, Pytest Suite & Final Documentation
+- **What I Did:** Implemented production API routes in `engine/main.py` (`GET /posts/{id}/images`, `POST /review/action`, `GET /review/ledger`, `GET /health`) satisfying `capstone.yaml` manifest. Implemented comprehensive test suite in `tests/test_engine.py` covering confidence floor exceptions, Mismatch Guard refusals, absence behavior, and HTTP endpoints. Wrote submission `README.md`.
+- **AI Tool Assistance:** Assisted in setting up FastAPI route structures, Pydantic responses, and Pytest boundary fixtures.
+- **Human Course Corrections:** Verified 100% green test suite execution and finalized submission documentation.
