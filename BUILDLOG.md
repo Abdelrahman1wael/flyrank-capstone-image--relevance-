@@ -14,3 +14,8 @@
 - **What I Did:** Implemented `engine/seed.py` with a 50-item mock corpus across 5 animal categories (`fox`, `wolf`, `dog`, `bear`, `deer`) plus low-confidence blurry edge cases. Built async retry worker simulation and per-transaction financial token cost telemetry ($0.000075 / 1k input tokens, $0.0003 / 1k output tokens).
 - **AI Tool Assistance:** Generated visual profile corpus seeds and token telemetry metrics.
 - **Human Course Corrections:** Isolated visual profiles with confidence < 0.75 from active datastore and added UTF-8 console output reconfiguration for Windows environments.
+
+### [2026-08-30] Stage 4: Vector Matching Engine & The Mismatch Guard
+- **What I Did:** Implemented `engine/services.py` (`MatchingService`) featuring vector similarity math via `numpy` cosine distance on `all-MiniLM-L6-v2` embeddings. Built explicit Mismatch Guard enforcing hard taxonomic category rejections (e.g. Wolf-on-Fox refusal scenario) and similarity threshold gating (default 0.54).
+- **AI Tool Assistance:** Assisted in tuning cosine distance functions and taxonomic mismatch guardrails.
+- **Human Course Corrections:** Integrated automatic audit logging of candidate decisions into SQLite review ledger.
