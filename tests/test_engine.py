@@ -2,8 +2,11 @@
 Automated Pytest Test Suite for FlyRank AI Image Understanding Engine.
 """
 
+# pyrefly: ignore [missing-import]
 import pytest
+# pyrefly: ignore [missing-import]
 from pydantic import ValidationError
+# pyrefly: ignore [missing-import]
 from fastapi.testclient import TestClient
 
 from engine.schemas import VisionProfileSchema, ReviewActionRequest

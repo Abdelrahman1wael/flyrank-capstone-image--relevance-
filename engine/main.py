@@ -3,6 +3,7 @@ FastAPI Production API Boundary for AI Image Understanding & Content Matching En
 """
 
 from typing import Dict, Any, Optional
+# pyrefly: ignore [missing-import]
 from fastapi import FastAPI, HTTPException, Query, Path
 from contextlib import asynccontextmanager
 
@@ -51,22 +52,53 @@ async def lifespan(app: FastAPI):
     yield
 
 
+tags_metadata = [
+    {
+        "name": "System Health",
+        "description": "Health checks and operational status pings for the matching engine."
+    },
+    {
+        "name": "Content Matching",
+        "description": "Semantic search, candidate ranking, and Mismatch Guard evaluation for post image assets."
+    },
+    {
+        "name": "Human Audit & Telemetry",
+        "description": "Human-in-the-loop review workflows, audit log ledgers, and token cost telemetry."
+    }
+]
+
 app = FastAPI(
     title="AI Image Understanding & Content Matching Engine",
-    description="Deterministic backend decision system with Mismatch Guard protection.",
+    description=(
+        "Production AI image relevance, candidate ranking, and mismatch-guard decision system.\n\n"
+        "### Core Capabilities\n"
+        "- **Semantic Matching**: Multi-modal / embedding similarity between post text & image metadata.\n"
+        "- **Mismatch Guard**: Dynamic threshold guardrail protecting against false positives.\n"
+        "- **Human-in-the-loop**: Approval/rejection audit trail workflows.\n"
+        "- **Cost Telemetry**: Token consumption and latency tracking."
+    ),
     version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
+    openapi_tags=tags_metadata,
     lifespan=lifespan
 )
 
 matching_service = MatchingService()
 
 
-@app.get("/health")
+@app.get("/health", tags=["System Health"], summary="Engine Health Check")
 def health_check() -> Dict[str, str]:
     return {"status": "HEALTHY", "engine": "FlyRank Image Matching System"}
 
 
-@app.get("/posts/{id}/images", response_model=MatchResponse)
+@app.get(
+    "/posts/{id}/images",
+    response_model=MatchResponse,
+    tags=["Content Matching"],
+    summary="Get Ranked & Guarded Images for Post"
+)
 def get_images_for_post(
     id: str = Path(..., description="Target Post ID"),
     query: Optional[str] = Query(None, description="Optional override search query text")
@@ -85,7 +117,11 @@ def get_images_for_post(
     return matching_service.evaluate_candidates(post_id=id, post_text=post_text)
 
 
-@app.post("/review/action")
+@app.post(
+    "/review/action",
+    tags=["Human Audit & Telemetry"],
+    summary="Submit Human Review Action"
+)
 def update_human_review_action(payload: ReviewActionRequest) -> Dict[str, str]:
     """
     Human-in-the-loop audit workflow entry point to approve or reject a match recommendation.
@@ -106,7 +142,11 @@ def update_human_review_action(payload: ReviewActionRequest) -> Dict[str, str]:
     }
 
 
-@app.get("/review/ledger")
+@app.get(
+    "/review/ledger",
+    tags=["Human Audit & Telemetry"],
+    summary="Retrieve Audit Ledger & Telemetry"
+)
 def get_audit_and_cost_ledger() -> Dict[str, Any]:
     """
     Exposes internal audit logging registry and cost metrics telemetry.

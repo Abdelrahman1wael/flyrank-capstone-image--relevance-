@@ -6,7 +6,7 @@ import os
 import json
 import sqlite3
 from typing import List, Dict, Any, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 
 DB_FILE = os.getenv("DATABASE_URL", "sqlite:///flyrank_cms.db").replace("sqlite:///", "")
 
@@ -88,7 +88,7 @@ def save_image_record(
     cost_usd: float
 ) -> None:
     """Inserts or updates an image record in the database."""
-    now_iso = datetime.utcnow().isoformat()
+    now_iso = datetime.now(timezone.utc).isoformat()
     with get_db_connection() as conn:
         cursor = conn.cursor()
         cursor.execute("""
@@ -144,7 +144,7 @@ def log_review_action(
     status: str = "PENDING"
 ) -> int:
     """Logs a matching decision into the review ledger for audit."""
-    now_iso = datetime.utcnow().isoformat()
+    now_iso = datetime.now(timezone.utc).isoformat()
     with get_db_connection() as conn:
         cursor = conn.cursor()
         cursor.execute("""
