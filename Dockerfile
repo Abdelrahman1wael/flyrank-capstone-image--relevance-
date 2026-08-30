@@ -6,6 +6,9 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+# Install PyTorch CPU version first to keep image lightweight and avoid downloading huge CUDA wheels
+RUN pip install --no-cache-dir torch --extra-index-url https://download.pytorch.org/whl/cpu
+
 # Install system and Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
