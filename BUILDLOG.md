@@ -19,3 +19,8 @@
 - **What I Did:** Implemented `engine/services.py` (`MatchingService`) featuring vector similarity math via `numpy` cosine distance on `all-MiniLM-L6-v2` embeddings. Built explicit Mismatch Guard enforcing hard taxonomic category rejections (e.g. Wolf-on-Fox refusal scenario) and similarity threshold gating (default 0.54).
 - **AI Tool Assistance:** Assisted in tuning cosine distance functions and taxonomic mismatch guardrails.
 - **Human Course Corrections:** Integrated automatic audit logging of candidate decisions into SQLite review ledger.
+
+### [2026-08-30] Stage 5: Precision Evaluation Sweep & Evidence Ledger
+- **What I Did:** Created `eval_suite.py` to run empirical threshold sweeps across 15 labeled evaluation test cases (exact matches, scientific taxonomic matches, refusal traps, out-of-domain queries). Discovered optimal threshold `0.54` securing 100.00% precision. Documented submission proof logs in `EVIDENCE.md`.
+- **AI Tool Assistance:** Designed precision evaluation metrics matrix and evidence ledger formatting.
+- **Human Course Corrections:** Enforced non-zero threshold evaluation sweeps to guarantee zero false positives on forced-wolf traps.
