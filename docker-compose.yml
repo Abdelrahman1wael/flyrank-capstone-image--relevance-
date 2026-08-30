@@ -1,0 +1,19 @@
+services:
+  matching-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flyrank_matching_engine
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///flyrank_cms.db
+      - MISMATCH_GUARD_THRESHOLD=0.54
+    volumes:
+      - ./flyrank_cms.db:/app/flyrank_cms.db
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
