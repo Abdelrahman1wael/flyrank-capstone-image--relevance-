@@ -1,0 +1,24 @@
+manifest_version: "1.0.0"
+capstone_id: "flyrank-capstone-image-relevance"
+project_name: "AI Image Understanding & Content Matching Engine"
+
+execution:
+  language: "python"
+  runtime: "python-3.11"
+  install: "pip install -r requirements.txt"
+  seed: "python -m engine.seed"
+  run: "uvicorn engine.main:app --host 0.0.0.0 --port 8000"
+  test: "pytest"
+
+routing:
+  base_url: "http://localhost:8000"
+  endpoints:
+    - path: "/posts/{id}/images"
+      method: "GET"
+      description: "Retrieves ranked and mismatch-guarded image suggestions for a specific post."
+    - path: "/review/action"
+      method: "POST"
+      description: "Human-in-the-loop endpoint to approve or reject a suggested match."
+    - path: "/review/ledger"
+      method: "GET"
+      description: "Exposes the internal audit logging registry for manual evaluation sweeps."
